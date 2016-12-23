@@ -654,7 +654,7 @@ sub setDefaults () {
     #####  General Configuration Options (aka miscellany)
 
     $global{"canuIteration"}               = 1;  #  See documentation in Execution.pm
-    $global{"canuIterationMax"}            = 2;
+    $global{"canuIterationMax"}            = 4;
 
     $global{"showNext"}                    = undef;
     $synops{"showNext"}                    = "Don't run any commands, just report what would run";
@@ -911,7 +911,7 @@ sub setDefaults () {
     #####  Consensus Options
 
     $global{"cnsPartitions"}               = undef;
-    $synops{"cnsPartitions"}               = "Partition consensus into N jobs";
+    $synops{"cnsPartitions"}               = "Partition consensus into max N jobs
 
     $global{"cnsPartitionMin"}             = undef;
     $synops{"cnsPartitionMin"}             = "Don't make a consensus partition with fewer than N reads";
@@ -925,7 +925,7 @@ sub setDefaults () {
     #####  Correction Options
 
     $global{"corPartitions"}               = undef;
-    $synops{"corPartitions"}               = "Partition read correction into N jobs";
+    $synops{"corPartitions"}               = "Partition read correction into max N jobs";
 
     $global{"corPartitionMin"}             = undef;
     $synops{"corPartitionMin"}             = "Don't make a read correction partition with fewer than N reads";
