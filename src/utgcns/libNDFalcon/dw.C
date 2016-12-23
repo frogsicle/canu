@@ -173,8 +173,15 @@ bool align(const char * query_seq, seq_coor_t q_len,
 
     // We should probably use hashmap to store the backtracing information to save memory allocation time
     // This O(MN) block allocation scheme is convient for now but it is slower for very long sequences
-    d_path = (d_path_data2 *)calloc( max_d * (band_size + 1 ) * 2 + 1, sizeof(d_path_data2) );
+   
+    long int len_request; 
+    len_request = (long int) max_d * (band_size + 1 ) * 2 + 1; // long int because this can wrap an int for long sequences
 
+    d_path = (d_path_data2 *)calloc( len_request, sizeof(d_path_data2) );
+    // warns user, but currently doesn't handle null pointer
+    if (d_path == NULL){
+        fprintf(stderr, "received NULL pointer, when asking for %ld * %d bytes (calloc).\n", len_request, sizeof(d_path_data2));
+    }
     aln_path = (path_point *)calloc( q_len + t_len + 1, sizeof(path_point) );
 
     if (get_aln_str) {
