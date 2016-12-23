@@ -911,7 +911,7 @@ sub setDefaults () {
     #####  Consensus Options
 
     $global{"cnsPartitions"}               = undef;
-    $synops{"cnsPartitions"}               = "Partition consensus into max N jobs
+    $synops{"cnsPartitions"}               = "Partition consensus into max N jobs";
 
     $global{"cnsPartitionMin"}             = undef;
     $synops{"cnsPartitionMin"}             = "Don't make a consensus partition with fewer than N reads";
