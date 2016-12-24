@@ -654,7 +654,7 @@ sub setDefaults () {
     #####  General Configuration Options (aka miscellany)
 
     $global{"canuIteration"}               = 1;  #  See documentation in Execution.pm
-    $global{"canuIterationMax"}            = 4;
+    $global{"canuIterationMax"}            = 5;
 
     $global{"showNext"}                    = undef;
     $synops{"showNext"}                    = "Don't run any commands, just report what would run";
