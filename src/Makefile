@@ -148,6 +148,7 @@ define INCLUDE_SUBMAKEFILE
     # include the specified makefile fragment.
     TARGET        :=
     TGT_CFLAGS    :=
+    TGT_CFLAGS    += -g
     TGT_CXXFLAGS  :=
     TGT_DEFS      :=
     TGT_INCDIRS   :=
@@ -160,6 +161,7 @@ define INCLUDE_SUBMAKEFILE
 
     SOURCES       :=
     SRC_CFLAGS    :=
+    SRC_CFLAGS    += -g
     SRC_CXXFLAGS  :=
     SRC_DEFS      :=
     SRC_INCDIRS   :=
@@ -372,7 +374,7 @@ endif
 ifeq (${OSTYPE}, Linux)
   CC        ?= gcc
   CXX       ?= g++
-  CXXFLAGS  := -pthread -fPIC -Wno-write-strings -Wno-unused -Wno-char-subscripts -Wno-sign-compare # -Wformat -Wall -Wextra
+  CXXFLAGS  := -pthread -fPIC -Wno-write-strings -Wno-unused -Wno-char-subscripts -Wno-sign-compare -g # -Wformat -Wall -Wextra
   LDFLAGS   := -pthread -lm
 
   CXXFLAGS  += -D_GLIBCXX_PARALLEL -fopenmp
