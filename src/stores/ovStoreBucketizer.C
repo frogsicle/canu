@@ -240,11 +240,16 @@ main(int argc, char **argv) {
           maxErrorRate, maxErrorRate * 100, maxError);
 
   fprintf(stderr, "Bucketizing %s\n", ovlInput);
-
+  fprintf(stderr, "at ovStoreFilter *filter = new ovStoreFilter(gkp, maxError);, &gkp=%p\n", &gkp);
   ovStoreFilter *filter = new ovStoreFilter(gkp, maxError);
+ // fprintf(stderr, "at foverlap(gkp);, &gkp=%p\n", &gkp);
   ovOverlap      foverlap(gkp);
+ // fprintf(stderr, "at roverlap(gkp);, &gkp=%p\n", &gkp);
   ovOverlap      roverlap(gkp);
+ // fprintf(stderr, "at ovFile         *inputFile = new ovFile(gkp, ovlInput, ovFileFull);, &gkp=%p\n", &gkp);
   ovFile         *inputFile = new ovFile(gkp, ovlInput, ovFileFull);
+ // fprintf(stderr, "after ovFile         *inputFile = new ovFile(gkp, ovlInput, ovFileFull);, &gkp=%p\n", &gkp);
+
 
   //  Do bigger buffers increase performance?  Do small ones hurt?
   //AS_OVS_setBinaryOverlapFileBufferSize(2 * 1024 * 1024);
