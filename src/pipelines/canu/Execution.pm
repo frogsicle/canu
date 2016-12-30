@@ -740,6 +740,53 @@ sub buildMemoryOption ($$) {
     my $r;
     my $u = "g";
 
+
+    # additions to keep jobs from getting killed by asking for too little memory
+    # tuned slightly to avoid asking for so much that it will massively slow execution
+    # for now in GB only, also very system specific
+    my $additions = '';
+    if (1){
+        #my $filename = '/mnt/data/alisandra/canu_demo/why.txt';
+        #open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
+        print STDOUT "m is $m, t is $t\n";
+        my $iteration = getGlobal("canuIteration"); # this has already been incremented, it appears.
+        $iteration -= 1; #
+        if ($iteration < 1){
+            $iteration = 1; # just incase I'm wrong about pre-incrementation, we should never ask for less than original mem.
+        }
+        #print STDOUT "iteration is $iteration";
+        #my $iteration = getGlobal("canuIteration");
+        #print STDOUT "does checking change the iteration? interation is $iteration";
+
+        my $slots_per_worker = 56;
+        my $gb_per_worker = 120 / 1024 * 1000;
+        my $min_scale = 1.5;
+        my $default_scale = 2.4;
+        my $bigmem = 1500;
+
+        my $max_by_thread = int($slots_per_worker / $t);
+        my $mem_by_slots = $gb_per_worker / $max_by_thread;
+
+        if ($m * $min_scale > $mem_by_slots){            
+            $m = $m * $default_scale;
+            print STDOUT "rather memory than thread limmited, scaling original request by $default_scale to $m\n";
+        }else{
+            $m = $mem_by_slots;
+            print STDOUT "rather thread than memory limmited, setting memory to match threads to $m\n";
+        }
+        $m = $m * $iteration**($iteration - 1);  # if it failed once, swell requested memory! (1, 2, 9, 64)
+        if ($m > $bigmem){
+            $m = $bigmem;
+            print STDOUT "reached maximum memory available, running with m=$m";
+        }
+        print STDOUT "after scaling for iteration, we need $m gb memory\n";
+        if ($m > $gb_per_worker){
+            $additions = ' -P BigMem.p';
+            print STDOUT "memory request too high for worker nodes, requesting BigMem queue\n";
+        }
+        #close $fh;
+        
+    }
     if (uc(getGlobal("gridEngine")) eq "SGE") {
         $m /= $t;
     }
@@ -763,7 +810,7 @@ sub buildMemoryOption ($$) {
 
     $r =  getGlobal("gridEngineMemoryOption");
     $r =~ s/MEMORY/${m}${u}/g;
-
+    $r .= $additions;  # hacky mc hack redirection of large memory jobs to big memory queue
     return($r);
 }
 
