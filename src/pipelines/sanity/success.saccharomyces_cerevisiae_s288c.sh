@@ -18,10 +18,10 @@ if [ ! -e $dnadiff -o ! -e $mummerplot ] ; then
 fi
 
 $dnadiff -p $name.dnadiff \
-  /data/references/escherichia_coli_k12_substr__MG1655_uid57779__NC_000913.3.fasta \
+  /data/references/saccharomyces_cerevisiae_s288c.20150113.fasta \
   $name.contigs.fasta
 
-$mummerplot --fat -t png -p $name.dnadiff $name.dnadiff.delta
+$mummerplot --filter --fat -t png -p $name.dnadiff $name.dnadiff.delta
 
 rm -f $name.dnadiff.1coords
 rm -f $name.dnadiff.1delta
